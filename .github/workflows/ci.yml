@@ -1,0 +1,35 @@
+
+name: CI - Gestion des apprenants
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: Vérification et tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le code source
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Vérifier la syntaxe JavaScript
+        run: npm run check
+
+      - name: Exécuter les tests unitaires
+        run: npm test
